@@ -5,7 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vimnws/Controller/NewsHeadlineController.dart';
+import 'package:vimnws/Helper/Dependies.dart';
 import 'package:vimnws/Helper/Dimension.dart';
+import 'package:vimnws/Helper/data.dart';
 import 'package:vimnws/Models/ArticleModel.dart';
 import 'package:vimnws/Models/CategoryModel.dart';
 import 'package:http/http.dart' as http;
@@ -18,10 +20,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  bool liked=false;
+
+
+
   List<CategoryModel> Category = <CategoryModel>[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Category=getCategory();}
+
   bool _loading=true;
-
-
+@override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+    liked=false;
+  }
 
 
 
@@ -29,7 +46,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
+
     PageController pageController = PageController(viewportFraction: 0.8);
+
 
     return Scaffold(
         appBar: AppBar(
@@ -78,7 +97,7 @@ class _HomeState extends State<Home> {
                    itemBuilder: (context, i) {
                      return Container(
                        margin: EdgeInsets.all(20),
-                       height: 500,
+                       height: 350,
                        width: double.maxFinite,
                        decoration: BoxDecoration(
                            color: Colors.white,
@@ -89,8 +108,28 @@ class _HomeState extends State<Home> {
                                  blurRadius: 3,
                                  spreadRadius: 3,
                                  color: Colors.grey.shade300)
-                           ]),child: Column(children: [
-                       Image(image: NetworkImage(newsHeadline.NewsHeadline[i]))
+                           ]),child: Column(children: [Container(margin: EdgeInsets.all(5),
+                       height: 200,width: Dimension.ScreenWidth,
+                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+                           image: DecorationImage(fit: BoxFit.fill,image: NetworkImage(newsHeadline.NewsHeadline[i].urlToImage))),),
+                             Padding(
+                             padding:  EdgeInsets.all(10.0),
+                             child:
+                             Text(
+                               newsHeadline.NewsHeadline[i].title,overflow: TextOverflow.ellipsis,
+                               style: TextStyle(fontSize: 20),maxLines: 3,),),
+                             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                               children: [Text(newsHeadline.NewsHeadline[i].source.name,style: TextStyle(fontSize: 13),),
+                               GestureDetector(onTap: (){
+                                 liked ? liked=false:liked=true;
+                               } ,
+                                   child: liked? Icon(Icons.favorite,color: Colors.red,): Icon(Icons.favorite_border_outlined,color: Colors.red,)
+                               ),
+                               Icon(Icons.share,color: Colors.green,),
+                               Icon(Icons.bookmark_add_outlined,color: Colors.deepPurple,),
+                             ],)
+
+
                      ],),
                      );
                    }),

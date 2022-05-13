@@ -6,8 +6,8 @@ class Dimension{
 
   static double? ScreenWidth= Get.context?.width;   //393
 
-  static double hight10=Dimension.Screenheight!/81.3;
-  static  double width10=Dimension.ScreenWidth!/39.3;
+  static double? hight10=Dimension.Screenheight!/81.3;
+  static  double? width10=Dimension.ScreenWidth!/39.3;
 
 
 

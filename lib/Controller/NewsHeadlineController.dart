@@ -14,10 +14,10 @@ class NewsHeadlineController extends GetxController{
   
   Future<void> GetNewsHeadline()async {
     Response response= await newsHeadlineRepo.GetNewsHeadline();
-    
     if(response.statusCode==200){
       _NewsHeadline=[];
       _NewsHeadline.addAll(News.fromJson(response.body).articles!);
+      // print(_NewsHeadline[1].urlToImage);
       update();
     }else{}
   }

@@ -1,21 +1,3 @@
-// import 'dart:core';
-//
-// class ArticleModel {
-//  ArticleModel({
-//   required this.url,
-//   required this.imageurl,
-//   required this.Author,
-//   required this.Description,
-//   required this.title});
-//
-//  late String Author;
-//  late String title;
-//  late String Description;
-//  late String url;
-//  late String imageurl;
-//
-// }
-//
 
 class News {
  String? status;
