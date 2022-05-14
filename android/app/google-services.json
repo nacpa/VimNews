@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1081369651120",
+    "project_id": "vimnews-f4605",
+    "storage_bucket": "vimnews-f4605.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081369651120:android:7e947043e44aa4f1af1875",
+        "android_client_info": {
+          "package_name": "com.example.vimnws"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081369651120-ffvrh5g83jv9lkgujecg27pgduka60v3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL-yAS4ozV3HvZ2sj6i15LLE19lA8EOTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081369651120-ffvrh5g83jv9lkgujecg27pgduka60v3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:vimnws/Helper/data.dart';
 import 'package:vimnws/Models/ArticleModel.dart';
 import 'package:vimnws/Models/CategoryModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:vimnws/View/NewsDetails.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -21,34 +23,28 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  bool liked=false;
-
-
+  final _firedata=FirebaseFirestore.instance;
+  bool liked = true;
 
   List<CategoryModel> Category = <CategoryModel>[];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Category=getCategory();}
+    Category = getCategory();
+  }
 
-  bool _loading=true;
-@override
+  bool _loading = false;
+  @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
     super.setState(fn);
-    liked=false;
+    liked = false;
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
-
-
     PageController pageController = PageController(viewportFraction: 0.8);
-
 
     return Scaffold(
         appBar: AppBar(
@@ -60,82 +56,136 @@ class _HomeState extends State<Home> {
               Text(
                 "Vim",
                 style: TextStyle(
-                  color: Colors.black,
-                ),
+                    color: Colors.black, fontSize: Dimension.width10! * 3),
               ),
               Text(
-                "News",
+                "News  ",
                 style: TextStyle(
                   color: Colors.blue,
+                  fontSize: Dimension.width10! * 3,
                 ),
               )
             ],
           ),
         ),
-        body: Column(
-          children: [
-            Container(
-              height: 100,
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey.shade100),
-              child: PageView.builder(
-                  controller: pageController,
-                  itemCount: Category.length,
-                  itemBuilder: (context, i) {
-                    return ContainerView(
-                        imageurl: Category[i].imageurl,
-                        Category: Category[i].CategoryName);
-                  }),
-            ),
-           GetBuilder<NewsHeadlineController>(builder:(newsHeadline) {
-             return  Expanded(
-               child: ListView.builder(
-                   shrinkWrap: true,
-                   itemCount: newsHeadline.NewsHeadline.length,
-                   itemBuilder: (context, i) {
-                     return Container(
-                       margin: EdgeInsets.all(20),
-                       height: 350,
-                       width: double.maxFinite,
-                       decoration: BoxDecoration(
-                           color: Colors.white,
-                           borderRadius: BorderRadius.circular(30),
-                           boxShadow: [
-                             BoxShadow(
-                                 offset: Offset(0, 4),
-                                 blurRadius: 3,
-                                 spreadRadius: 3,
-                                 color: Colors.grey.shade300)
-                           ]),child: Column(children: [Container(margin: EdgeInsets.all(5),
-                       height: 200,width: Dimension.ScreenWidth,
-                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
-                           image: DecorationImage(fit: BoxFit.fill,image: NetworkImage(newsHeadline.NewsHeadline[i].urlToImage))),),
-                             Padding(
-                             padding:  EdgeInsets.all(10.0),
-                             child:
-                             Text(
-                               newsHeadline.NewsHeadline[i].title,overflow: TextOverflow.ellipsis,
-                               style: TextStyle(fontSize: 20),maxLines: 3,),),
-                             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                               children: [Text(newsHeadline.NewsHeadline[i].source.name,style: TextStyle(fontSize: 13),),
-                               GestureDetector(onTap: (){
-                                 liked ? liked=false:liked=true;
-                               } ,
-                                   child: liked? Icon(Icons.favorite,color: Colors.red,): Icon(Icons.favorite_border_outlined,color: Colors.red,)
-                               ),
-                               Icon(Icons.share,color: Colors.green,),
-                               Icon(Icons.bookmark_add_outlined,color: Colors.deepPurple,),
-                             ],)
-
-
-                     ],),
-                     );
-                   }),
-             );
-           }),
-          ],
+        body: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                height: Dimension.width10! * 7,
+                width: Dimension.width10! * 25,
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          offset: Offset(0, 2),
+                          blurRadius: 2,
+                          spreadRadius: 1,
+                          color: Colors.grey.shade300)
+                    ],
+                    borderRadius: BorderRadius.circular(Dimension.width10! * 2),
+                    color: Colors.grey.shade100),
+                child: PageView.builder(
+                    controller: pageController,
+                    itemCount: Category.length,
+                    itemBuilder: (context, i) {
+                      return ContainerView(
+                          imageurl: Category[i].imageurl,
+                          Category: Category[i].CategoryName);
+                    }),
+              ),
+              GetBuilder<NewsHeadlineController>(builder: (newsHeadline) {
+                return Expanded(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: newsHeadline.NewsHeadline.length,
+                      itemBuilder: (context, i) {
+                        return Container(
+                          margin: EdgeInsets.all(Dimension.width10! * 2),
+                          height: Dimension.width10!*35,
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(0, 4),
+                                    blurRadius: 3,
+                                    spreadRadius: 3,
+                                    color: Colors.grey.shade300)
+                              ]),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.all(5),
+                                height: Dimension.width10! * 20,
+                                width: Dimension.ScreenWidth,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        Dimension.width10! * 2),
+                                    image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: NetworkImage(newsHeadline
+                                            .NewsHeadline[i].urlToImage))),
+                              ),
+                              GestureDetector(onTap: ()=> Get.to(NewsDetails(urltoImage: newsHeadline.NewsHeadline[i].urlToImage, description: newsHeadline.NewsHeadline[i].content, headline: newsHeadline.NewsHeadline[i].description,))
+                              ,
+                                child: Padding(
+                                  padding: EdgeInsets.all(Dimension.width10! * 1),
+                                  child: Text(
+                                    newsHeadline.NewsHeadline[i].title,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: Dimension.width10! * 2),
+                                    maxLines: 3,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    newsHeadline.NewsHeadline[i].source.name,
+                                    style: TextStyle(
+                                        fontSize: Dimension.width10! * 1.3),
+                                  ),
+                                  liked
+                                      ? Icon(
+                                          Icons.favorite_border_outlined,
+                                          color: Colors.red,
+                                        )
+                                      : Icon(
+                                          Icons.favorite_border_outlined,
+                                          color: Colors.red,
+                                        ),
+                                  Icon(
+                                    Icons.share,
+                                    color: Colors.green,
+                                  ),
+                                  GestureDetector(onTap: (){
+                                    Map<String,String> Data={
+                                      'name':"Nachiketa",'class':"First"
+                                    };
+                                    _firedata.collection("data").add(Data);
+                                  }
+                                      
+                        ,
+                                    child: Icon(
+                        
+                                      Icons.bookmark_add_outlined,
+                                      color: Colors.deepPurple,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      }),
+                );
+              }),
+            ],
+          ),
         ));
   }
 }
