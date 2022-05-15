@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vimnws/Helper/Dimension.dart';
 import 'package:vimnws/View/Home.dart';
+import 'package:vimnws/View/Navigation.dart';
 
 import '../../Helper/CustomSnackBar.dart';
 import '../../Helper/CustomText.dart';
@@ -36,7 +37,7 @@ class SignInPage extends StatelessWidget {
             CustomSnackBar("Password can't be Empty", "please Fill valid Password",
                 Colors.red, Colors.white);} else if(!GetUtils.isEmail(Email)){ CustomSnackBar(
               "Wrong Email ", "please Fill valid mail", Colors.red, Colors.white);} else{
-            _auth.signInWithEmailAndPassword(email: Email, password: Password).then((value) => Get.to(Home())).onError((error, stackTrace) {CustomSnackBar("Error", error.toString(), Colors.red, Colors.white); });
+            _auth.signInWithEmailAndPassword(email: Email, password: Password).then((value) => Get.to(Navigation())).onError((error, stackTrace) {CustomSnackBar("Error", error.toString(), Colors.red, Colors.white); });
 
           }
         }

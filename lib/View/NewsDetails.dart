@@ -88,7 +88,7 @@ class NewsDetails extends StatelessWidget {
                   children: [
                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 20, left: 20, right: 20),
+                           EdgeInsets.only(top: 20, left: 20, right: 20,bottom: 10),
                       child: Text(
                         headline,
                         overflow: TextOverflow.ellipsis,

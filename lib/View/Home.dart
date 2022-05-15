@@ -12,6 +12,7 @@ import 'package:vimnws/Helper/data.dart';
 import 'package:vimnws/Models/ArticleModel.dart';
 import 'package:vimnws/Models/CategoryModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:vimnws/View/BookMark.dart';
 import 'package:vimnws/View/NewsDetails.dart';
 
 class Home extends StatefulWidget {
@@ -45,6 +46,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     PageController pageController = PageController(viewportFraction: 0.8);
+    bool Saved=false;
 
     return Scaffold(
         appBar: AppBar(
@@ -52,7 +54,8 @@ class _HomeState extends State<Home> {
           elevation: 0,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: [ GestureDetector(onTap: ()=> Get.to(BookMark()),
+                child: Icon(Icons.bookmark_add_outlined)),
               Text(
                 "Vim",
                 style: TextStyle(
@@ -115,17 +118,20 @@ class _HomeState extends State<Home> {
                               ]),
                           child: Column(
                             children: [
-                              Container(
-                                margin: EdgeInsets.all(5),
-                                height: Dimension.width10! * 20,
-                                width: Dimension.ScreenWidth,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        Dimension.width10! * 2),
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: NetworkImage(newsHeadline
-                                            .NewsHeadline[i].urlToImage))),
+                              GestureDetector(onTap:()=> Get.to(NewsDetails(urltoImage: newsHeadline.NewsHeadline[i].urlToImage, description: newsHeadline.NewsHeadline[i].content, headline: newsHeadline.NewsHeadline[i].description,))
+                                ,
+                                child: Container(
+                                  margin: EdgeInsets.all(5),
+                                  height: Dimension.width10! * 20,
+                                  width: Dimension.ScreenWidth,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          Dimension.width10! * 2),
+                                      image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: NetworkImage(newsHeadline
+                                              .NewsHeadline[i].urlToImage))),
+                                ),
                               ),
                               GestureDetector(onTap: ()=> Get.to(NewsDetails(urltoImage: newsHeadline.NewsHeadline[i].urlToImage, description: newsHeadline.NewsHeadline[i].content, headline: newsHeadline.NewsHeadline[i].description,))
                               ,
@@ -149,12 +155,7 @@ class _HomeState extends State<Home> {
                                     style: TextStyle(
                                         fontSize: Dimension.width10! * 1.3),
                                   ),
-                                  liked
-                                      ? Icon(
-                                          Icons.favorite_border_outlined,
-                                          color: Colors.red,
-                                        )
-                                      : Icon(
+                                   Icon(
                                           Icons.favorite_border_outlined,
                                           color: Colors.red,
                                         ),
@@ -162,20 +163,15 @@ class _HomeState extends State<Home> {
                                     Icons.share,
                                     color: Colors.green,
                                   ),
-                                  GestureDetector(onTap: (){
+                                  ElevatedButton(
+                                      onPressed: (){
                                     Map<String,String> Data={
-                                      'name':"Nachiketa",'class':"First"
+                                      'urlToImage':newsHeadline.NewsHeadline[i].urlToImage,'title':newsHeadline.NewsHeadline[i].title
                                     };
+
                                     _firedata.collection("data").add(Data);
-                                  }
-                                      
-                        ,
-                                    child: Icon(
-                        
-                                      Icons.bookmark_add_outlined,
-                                      color: Colors.deepPurple,
-                                    ),
-                                  ),
+                                  },style: ElevatedButton.styleFrom(shape: CircleBorder(),primary: Colors.deepOrange,)
+                                      ,child: Icon(Icons.bookmark_add_outlined))
                                 ],
                               )
                             ],
