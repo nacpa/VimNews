@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:vimnws/View/Authentication/Sign_in_Page.dart';
 import 'package:vimnws/View/Navigation.dart';
 import 'package:vimnws/View/NewsDetails.dart';
 import 'package:vimnws/View/SplashScreen.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
       // SplashScreen(),
       // Home(),
       // BookMark(),
-      Navigation(),
+      // Navigation(),
+      SignInPage(),
 
     );
   }
