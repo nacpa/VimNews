@@ -118,7 +118,7 @@ class _HomeState extends State<Home> {
                               ]),
                           child: Column(
                             children: [
-                              GestureDetector(onTap:()=> Get.to(NewsDetails(urltoImage: newsHeadline.NewsHeadline[i].urlToImage, description: newsHeadline.NewsHeadline[i].content, headline: newsHeadline.NewsHeadline[i].description,))
+                              GestureDetector(onTap:()=> Get.to(NewsDetails(urltoImage: newsHeadline.NewsHeadline[i].urlToImage, description: newsHeadline.NewsHeadline[i].description, headline: newsHeadline.NewsHeadline[i].title,))
                                 ,
                                 child: Container(
                                   margin: EdgeInsets.all(5),
@@ -133,12 +133,12 @@ class _HomeState extends State<Home> {
                                               .NewsHeadline[i].urlToImage))),
                                 ),
                               ),
-                              GestureDetector(onTap: ()=> Get.to(NewsDetails(urltoImage: newsHeadline.NewsHeadline[i].urlToImage, description: newsHeadline.NewsHeadline[i].content, headline: newsHeadline.NewsHeadline[i].description,))
+                              GestureDetector(onTap: ()=> Get.to(NewsDetails(urltoImage: newsHeadline.NewsHeadline[i].urlToImage!, description: newsHeadline.NewsHeadline[i].content!, headline: newsHeadline.NewsHeadline[i].description!,))
                               ,
                                 child: Padding(
                                   padding: EdgeInsets.all(Dimension.width10! * 1),
                                   child: Text(
-                                    newsHeadline.NewsHeadline[i].title,
+                                    newsHeadline.NewsHeadline[i].title.toString(),
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontSize: Dimension.width10! * 2),
@@ -151,7 +151,7 @@ class _HomeState extends State<Home> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    newsHeadline.NewsHeadline[i].source.name,
+                                    newsHeadline.NewsHeadline[i]!.source.name,
                                     style: TextStyle(
                                         fontSize: Dimension.width10! * 1.3),
                                   ),
