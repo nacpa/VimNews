@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
           elevation: 0,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [ GestureDetector(onTap: ()=> Get.to(BookMark()),
+            children: [ GestureDetector(onTap: ()=> Get.to(bookMark()),
                 child: Icon(Icons.bookmark_add_outlined)),
               Text(
                 "Vim",
