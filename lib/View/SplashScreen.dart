@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:vimnws/View/Authentication/Sign_in_Page.dart';
 import 'package:vimnws/View/Home.dart';
 
 import '../Helper/Dimension.dart';
+import 'Navigation.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -32,8 +34,15 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     animation=CurvedAnimation(parent: animationController, curve: Curves.easeInOutCubicEmphasized);
     animation2=CurvedAnimation(parent: animationController, curve: Curves.slowMiddle);
     _LoadResourse();
-    Timer(Duration(seconds: 4), ()=>
-    Get.to(SignInPage())
+    Timer(Duration(seconds: 4), (){
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+        if(user==null){Get.to(SignInPage());}else{
+          Get.to(Navigation());
+        }
+      });
+
+
+    }
     );
   }
 
